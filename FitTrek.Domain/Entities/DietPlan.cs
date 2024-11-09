@@ -7,9 +7,12 @@ public class DietPlan
     public DateOnly StartDate { get; set; } = default!;
     public DateOnly EndDate { get; set; } = default!;
 
-    public int ClientId { get; set; }
     public int NutritionistId { get; set; }
+    public int ClientId { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public List<Meal> Meals { get; set; } = new();
+    
+
+    public DateTime CreatedAt { get; set; } = default!;
     public DateTime? UpdatedAt { get; set; }
 }

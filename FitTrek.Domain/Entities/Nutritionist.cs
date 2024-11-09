@@ -12,8 +12,10 @@ public class Nutritionist
     public decimal CurrentMonthlyRevenue { get; set; }
 
     public List<Client> Clients { get; set; } = new();
+    public List<DietPlan> DietPlans { get; set; } = new();
+    public List<ProgressNotes> ProgressNotes { get; set; } = new();
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = default!;
     public DateTime? UpdatedAt { get; set; }
 
 }

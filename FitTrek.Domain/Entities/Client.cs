@@ -9,16 +9,20 @@ public class Client
     public string Email { get; set; } = default!;
     public string PhoneNumber { get; set; } = default!;
     public string Gender { get; set; } = default!;
-    public DateOnly DateOfBirth { get; set; }
-    
-    public int HeightInCm { get; set; } = default!;
-    public decimal WeightInKg { get; set; } = default!;
+    public DateOnly DateOfBirth { get; set; } = default!;
+
+    public int HeightInCm { get; set; }
+    public decimal WeightInKg { get; set; }
 
     public int NutritionistId { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
     public string SubscriptionPlan { get; set; } = default!;
 
-    public DateTime? CreatedAt { get; set; }
+    public List<DietPlan> DietPlans { get; set; } = new();
+    public List<ClientStats> ClientStats { get; set; } = new();
+    public List<ProgressNotes> ProgressNotes { get; set; } = new();
+
+    public DateTime CreatedAt { get; set; } = default!;
     public DateTime? UpdatedAt { get; set; }
 
 }

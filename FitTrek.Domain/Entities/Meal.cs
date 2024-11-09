@@ -1,6 +1,6 @@
 ﻿namespace FitTrek.Domain.Entities;
 
-public class DietPlanDetail
+public class Meal
 {
     public int Id { get; set; }
     public string MealType { get; set; } = default!;
@@ -13,7 +13,7 @@ public class DietPlanDetail
 
     public int DietPlanId { get; set; }
 
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = default!;
     public DateTime? UpdatedAt { get; set; }
 
 
