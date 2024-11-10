@@ -14,4 +14,14 @@ public class NutritionistsController(INutritionistsService nutritionistsService)
 
         return Ok(nutritionists);
     }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var nutritionist = await nutritionistsService.GetById(id);
+        if(nutritionist is null)
+            return NotFound();
+          
+        return Ok(nutritionist);
+    }
 }

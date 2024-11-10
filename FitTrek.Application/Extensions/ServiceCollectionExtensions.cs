@@ -9,5 +9,7 @@ public static class ServiceCollectionExtensions
     public static void AddApplication(this IServiceCollection services)
     {
         services.AddScoped<INutritionistsService, NutritionistsService>();
+
+        services.AddAutoMapper(typeof(ServiceCollectionExtensions).Assembly);
     }
 }

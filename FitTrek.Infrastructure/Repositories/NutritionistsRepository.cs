@@ -9,7 +9,18 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
 {
     public async Task<IEnumerable<Nutritionist>> GetAsync()
     {
-        var nutritionists = await dbContext.Nutritionists.ToListAsync();
+        var nutritionists = await dbContext.Nutritionists.
+            Include(n => n.Clients)
+            .ToListAsync();
         return nutritionists;
+    }
+
+    public async Task<Nutritionist?> GetByIdAsync(int id)
+    {
+        var nutritionist = await dbContext.Nutritionists.
+            Include(n => n.Clients).
+            FirstOrDefaultAsync(n => n.Id == id);
+
+        return nutritionist;
     }
 }
