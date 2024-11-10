@@ -7,11 +7,18 @@ namespace FitTrek.Infrastructure.Repositories;
 
 internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritionistsRepository
 {
-    public async Task<int> Create(Nutritionist nutritionist)
+    public async Task<int> Create(Nutritionist entity)
     {
-        dbContext.Nutritionists.Add(nutritionist);
+        dbContext.Nutritionists.Add(entity);
+        
         await dbContext.SaveChangesAsync();
-        return nutritionist.Id;
+        return entity.Id;
+    }
+
+    public async Task Delete(Nutritionist entity)
+    {
+        dbContext.Remove(entity);
+        await dbContext.SaveChangesAsync();
     }
 
     public async Task<IEnumerable<Nutritionist>> GetAllAsync()
@@ -30,4 +37,8 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
 
         return nutritionist;
     }
+
+    public Task SaveChanges()
+    => dbContext.SaveChangesAsync();
+    
 }

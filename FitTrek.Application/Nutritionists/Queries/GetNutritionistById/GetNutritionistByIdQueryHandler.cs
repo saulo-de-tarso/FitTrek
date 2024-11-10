@@ -13,7 +13,7 @@ public class GetNutritionistByIdQueryHandler(ILogger<GetNutritionistByIdQueryHan
 
     public async Task<NutritionistDto?> Handle(GetNutritionistByIdQuery request, CancellationToken cancellationToken)
     {
-        logger.LogInformation($"Getting restaurant with id {request.Id}");
+        logger.LogInformation("Getting nutritionist with id {NutritionistId}", request.Id);
         var nutritionist = await nutritionistsRepository.GetByIdAsync(request.Id);
 
         var nutritionistDto = mapper.Map<NutritionistDto?>(nutritionist);

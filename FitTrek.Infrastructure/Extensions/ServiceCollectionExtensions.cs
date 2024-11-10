@@ -13,7 +13,9 @@ public static class ServiceCollectionExtensions
     public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("FitTrekDb");
-        services.AddDbContext<FitTrekDbContext>(options => options.UseSqlServer(connectionString));
+        services.AddDbContext<FitTrekDbContext>(options =>
+            options.UseSqlServer(connectionString)
+                .EnableSensitiveDataLogging());
 
         services.AddScoped<INutritionistSeeder, NutritionistSeeder>();
         services.AddScoped<INutritionistsRepository, NutritionistsRepository>();

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FitTrek.Application.Nutritionists.Commands.CreateNutritionist;
+using FitTrek.Application.Nutritionists.Commands.UpdateNutritionist;
 using FitTrek.Domain.Entities;
 
 namespace FitTrek.Application.Nutritionists.Dtos;
@@ -15,6 +16,14 @@ public class NutritionistsProfile : Profile
             });
 
         CreateMap<Nutritionist, NutritionistDto>();
+
+        CreateMap<UpdateNutritionistCommand, Nutritionist>()
+            .AfterMap((src, dest) =>
+            {
+                dest.UpdatedAt = DateTime.Now;
+            });
+
+        
     }
 }
 

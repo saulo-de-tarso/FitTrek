@@ -12,7 +12,7 @@ public class CreateNutritionistCommandHandler(ILogger<CreateNutritionistCommandH
 {
     public async Task<int> Handle(CreateNutritionistCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Creating a new nutritionist");
+        logger.LogInformation("Creating a new nutritionist @{Nutritionist}", request);
 
         var nutritionist = mapper.Map<Nutritionist>(request);
                 
