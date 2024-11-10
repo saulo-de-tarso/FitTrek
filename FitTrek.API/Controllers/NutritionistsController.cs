@@ -1,4 +1,5 @@
 ﻿using FitTrek.Application.Nutritionists;
+using FitTrek.Application.Nutritionists.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitTrek.API.Controllers;
@@ -24,4 +25,14 @@ public class NutritionistsController(INutritionistsService nutritionistsService)
           
         return Ok(nutritionist);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateNutritionistDto createNutritionistDto)
+    {
+        int id = await nutritionistsService.Create(createNutritionistDto);
+
+        return CreatedAtAction(nameof(GetById), new { id }, null);
+    }
+
+
 }

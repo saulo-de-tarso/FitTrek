@@ -11,6 +11,20 @@ internal class NutritionistsService(INutritionistsRepository nutritionistsReposi
     ILogger<NutritionistsService> logger,
     IMapper mapper) : INutritionistsService
 {
+    public async Task<int> Create(CreateNutritionistDto createNutritionistDto)
+    {
+        logger.LogInformation("Creating a new nutritionist");
+
+        var nutritionist = mapper.Map<Nutritionist>(createNutritionistDto);
+
+        nutritionist.CreatedAt = DateTime.Now;
+
+        int id = await nutritionistsRepository.Create(nutritionist);
+
+        return id;
+
+    }
+
     public async Task<IEnumerable<NutritionistDto>> Get()
     {
         logger.LogInformation("Getting all nutritionists");

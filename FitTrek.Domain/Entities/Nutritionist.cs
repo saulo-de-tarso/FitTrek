@@ -9,7 +9,7 @@ public class Nutritionist
     public string Email { get; set; } = default!;
     public string PhoneNumber { get; set; } = default!;
 
-    public DateOnly DateOfBirth { get; set; } = default!;
+    public DateTime DateOfBirth { get; set; } = default!;
 
     public decimal CurrentMonthlyRevenue { get; set; }
 

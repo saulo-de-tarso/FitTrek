@@ -1,10 +1,9 @@
-﻿using FitTrek.Application.Clients.Dtos;
+﻿using System.Text.Json.Serialization;
 
 namespace FitTrek.Application.Nutritionists.Dtos;
 
-public class NutritionistDto
+public class CreateNutritionistDto
 {
-    public int Id { get; set; }
     public string FirstName { get; set; } = default!;
     public string LastName { get; set; } = default!;
 
@@ -12,10 +11,6 @@ public class NutritionistDto
     public string PhoneNumber { get; set; } = default!;
 
     public DateTime DateOfBirth { get; set; } = default!;
-    public decimal CurrentMonthlyRevenue { get; set; }
 
-    public List<ClientDto> Clients { get; set; } = [];
-    
-    public DateTime CreatedAt { get; set; } = default!;
-    public DateTime? UpdatedAt { get; set; }
+
 }

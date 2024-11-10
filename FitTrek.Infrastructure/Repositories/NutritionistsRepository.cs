@@ -7,6 +7,13 @@ namespace FitTrek.Infrastructure.Repositories;
 
 internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritionistsRepository
 {
+    public async Task<int> Create(Nutritionist nutritionist)
+    {
+        dbContext.Nutritionists.Add(nutritionist);
+        await dbContext.SaveChangesAsync();
+        return nutritionist.Id;
+    }
+
     public async Task<IEnumerable<Nutritionist>> GetAsync()
     {
         var nutritionists = await dbContext.Nutritionists.

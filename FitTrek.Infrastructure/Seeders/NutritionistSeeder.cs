@@ -17,7 +17,7 @@ internal class NutritionistSeeder(FitTrekDbContext dbContext) : INutritionistSee
                     LastName = "Boça",
                     Email = "luizboca@fittrek.com",
                     PhoneNumber = "(11) 91111-1111",
-                    DateOfBirth = new DateOnly(1992, 9, 12),
+                    DateOfBirth = new DateTime(1992, 9, 12),
                     CurrentMonthlyRevenue = 0,
                     CreatedAt = DateTime.Now,
                     Clients =
@@ -29,7 +29,7 @@ internal class NutritionistSeeder(FitTrekDbContext dbContext) : INutritionistSee
                             Email = "gilbrother@fittrek.com",
                             PhoneNumber = "(21) 92111-1111",
                             Gender = "Male",
-                            DateOfBirth = new DateOnly(1957, 7, 29),
+                            DateOfBirth = new DateTime(1957, 7, 29),
                             HeightInCm = 160,
                             WeightInKg = 65,
                             SubscriptionPlan = "Silver",

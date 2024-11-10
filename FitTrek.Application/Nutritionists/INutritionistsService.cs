@@ -6,5 +6,6 @@ namespace FitTrek.Application.Nutritionists
     {
         Task<IEnumerable<NutritionistDto>> Get();
         Task<NutritionistDto> GetById(int id);
+        Task<int> Create(CreateNutritionistDto createNutritionistDto);
     }
 }
