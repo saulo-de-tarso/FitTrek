@@ -4,3 +4,15 @@
 GET {{FitTrek.API_HostAddress}}/api/nutritionists
 
 ###
+
+DELETE {{FitTrek.API_HostAddress}}/api/nutritionists/3
+
+###
+
+GET {{FitTrek.API_HostAddress}}/api/Nutritionists/3
+
+###
+
+GET {{FitTrek.API_HostAddress}}/api/nutritionists
+
+###

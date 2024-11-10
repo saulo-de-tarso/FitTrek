@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FitTrek.Domain.Entities;
+using FitTrek.Domain.Exceptions;
 using FitTrek.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -8,15 +9,15 @@ namespace FitTrek.Application.Nutritionists.Commands.UpdateNutritionist;
 
 public class UpdateNutritionistCommandHandler(ILogger<UpdateNutritionistCommandHandler> logger,
     IMapper mapper,
-    INutritionistsRepository nutritionistsRepository) : IRequestHandler<UpdateNutritionistCommand, bool>
+    INutritionistsRepository nutritionistsRepository) : IRequestHandler<UpdateNutritionistCommand>
 {
-    public async Task<bool> Handle(UpdateNutritionistCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateNutritionistCommand request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Updating nutritionist with id {NutritionistId} with {@UpdatedNutritionist}", request.Id, request);
         var nutritionist = await nutritionistsRepository.GetByIdAsync(request.Id);
 
         if (nutritionist is null)
-            return false;
+            throw new NotFoundException(nameof(Nutritionist), request.Id.ToString());
 
         //logic so that you can update only one property
         if (request.FirstName is null)
@@ -34,6 +35,6 @@ public class UpdateNutritionistCommandHandler(ILogger<UpdateNutritionistCommandH
         mapper.Map(request, nutritionist);
 
         await nutritionistsRepository.SaveChanges();
-        return true;
+        
     }
 }

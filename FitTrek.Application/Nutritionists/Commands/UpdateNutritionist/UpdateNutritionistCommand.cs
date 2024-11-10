@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace FitTrek.Application.Nutritionists.Commands.UpdateNutritionist;
 
-public class UpdateNutritionistCommand : IRequest<bool>
+public class UpdateNutritionistCommand : IRequest
 {
     [JsonIgnore]
     public int Id { get; set; }

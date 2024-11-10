@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using FitTrek.Application.Nutritionists.Dtos;
+using FitTrek.Domain.Entities;
+using FitTrek.Domain.Exceptions;
 using FitTrek.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -11,12 +13,13 @@ public class GetNutritionistByIdQueryHandler(ILogger<GetNutritionistByIdQueryHan
     INutritionistsRepository nutritionistsRepository) : IRequestHandler<GetNutritionistByIdQuery, NutritionistDto?>
 {
 
-    public async Task<NutritionistDto?> Handle(GetNutritionistByIdQuery request, CancellationToken cancellationToken)
+    public async Task<NutritionistDto> Handle(GetNutritionistByIdQuery request, CancellationToken cancellationToken)
     {
         logger.LogInformation("Getting nutritionist with id {NutritionistId}", request.Id);
-        var nutritionist = await nutritionistsRepository.GetByIdAsync(request.Id);
+        var nutritionist = await nutritionistsRepository.GetByIdAsync(request.Id) 
+            ?? throw new NotFoundException(nameof(Nutritionist), request.Id.ToString());
 
-        var nutritionistDto = mapper.Map<NutritionistDto?>(nutritionist);
+        var nutritionistDto = mapper.Map<NutritionistDto>(nutritionist);
 
         return nutritionistDto;
     }
