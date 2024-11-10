@@ -1,17 +1,21 @@
 ﻿using FitTrek.Application.Nutritionists;
+using FitTrek.Application.Nutritionists.Commands.CreateNutritionist;
 using FitTrek.Application.Nutritionists.Dtos;
+using FitTrek.Application.Nutritionists.Queries.GetNutritionistById;
+using FitTrek.Application.Nutritionists.Queries.GetNutritionists;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitTrek.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class NutritionistsController(INutritionistsService nutritionistsService) : ControllerBase
+public class NutritionistsController(IMediator mediator) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> Get()
+    public async Task<IActionResult> GetAll()
     {
-        var nutritionists = await nutritionistsService.Get();
+        var nutritionists = await mediator.Send(new GetAllNutritionistsQuery());
 
         return Ok(nutritionists);
     }
@@ -19,7 +23,8 @@ public class NutritionistsController(INutritionistsService nutritionistsService)
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(int id)
     {
-        var nutritionist = await nutritionistsService.GetById(id);
+        var nutritionist = await mediator.Send(new GetNutritionistByIdQuery(id));
+
         if(nutritionist is null)
             return NotFound();
           
@@ -27,9 +32,9 @@ public class NutritionistsController(INutritionistsService nutritionistsService)
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create(CreateNutritionistDto createNutritionistDto)
+    public async Task<IActionResult> Create(CreateNutritionistCommand command)
     {
-        int id = await nutritionistsService.Create(createNutritionistDto);
+        int id = await mediator.Send(command);
 
         return CreatedAtAction(nameof(GetById), new { id }, null);
     }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-
+using FitTrek.Application.Nutritionists.Commands.CreateNutritionist;
 using FitTrek.Domain.Entities;
-using System.Xml.Serialization;
 
 namespace FitTrek.Application.Nutritionists.Dtos;
 
@@ -9,7 +8,7 @@ public class NutritionistsProfile : Profile
 {
     public NutritionistsProfile()
     {
-        CreateMap<CreateNutritionistDto, Nutritionist>()
+        CreateMap<CreateNutritionistCommand, Nutritionist>()
             .AfterMap((src, dest) =>
             {
                 dest.CreatedAt = DateTime.Now;
