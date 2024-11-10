@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FitTrek.Application\FitTrek.Application.csproj" />
     <ProjectReference Include="..\FitTrek.Infrastructure\FitTrek.Infrastructure.csproj" />
   </ItemGroup>

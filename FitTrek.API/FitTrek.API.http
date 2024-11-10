@@ -1,6 +1,6 @@
-@FitTrek.API_HostAddress = http://localhost:5125
+@FitTrek.API_HostAddress = https://localhost:7279
 
-GET {{FitTrek.API_HostAddress}}/weatherforecast/
-Accept: application/json
+
+GET {{FitTrek.API_HostAddress}}/api/nutritionists
 
 ###
