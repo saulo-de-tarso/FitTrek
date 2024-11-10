@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using FitTrek.Infrastructure.Seeders;
 
 namespace FitTrek.Infrastructure.Extensions;
 
@@ -11,5 +12,7 @@ public static class ServiceCollectionExtensions
     {
         var connectionString = configuration.GetConnectionString("FitTrekDb");
         services.AddDbContext<FitTrekDbContext>(options => options.UseSqlServer(connectionString));
+
+        services.AddScoped<INutritionistSeeder, NutritionistSeeder>();
     }
 }
