@@ -1,4 +1,5 @@
 ﻿using FitTrek.Application.Clients.Commands.CreateClient;
+using FitTrek.Application.Clients.Commands.DeleteClientByIdForNutritionist;
 using FitTrek.Application.Clients.Commands.DeleteClientsForNutritionist;
 using FitTrek.Application.Clients.Commands.UpdateClient;
 using FitTrek.Application.Clients.Dtos;
@@ -31,6 +32,16 @@ public class ClientsController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> DeleteAllForNutritionist(int nutritionistId)
     {
         await mediator.Send(new DeleteClientsForNutritionistCommand(nutritionistId));
+
+        return NoContent();
+    }
+
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpDelete("{clientId}")]
+    public async Task<IActionResult> DeleteByIdForNutritionist(int nutritionistId, int clientId)
+    {
+        await mediator.Send(new DeleteClientByIdForNutritionistCommand(nutritionistId, clientId));
 
         return NoContent();
     }

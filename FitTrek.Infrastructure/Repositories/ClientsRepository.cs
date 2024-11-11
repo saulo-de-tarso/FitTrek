@@ -21,6 +21,12 @@ internal class ClientsRepository(FitTrekDbContext dbContext) : IClientsRepositor
         await dbContext.SaveChangesAsync();
     }
 
+    public async Task DeleteById(Client entity)
+    {
+        dbContext.Remove(entity);
+        await dbContext.SaveChangesAsync();
+    }
+
     /*public async Task<Client?> GetByIdAsync(int id)
     {
         var client = await dbContext.Clients.

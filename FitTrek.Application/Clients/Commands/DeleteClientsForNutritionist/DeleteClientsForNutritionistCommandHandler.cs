@@ -1,11 +1,10 @@
-﻿using FitTrek.Application.Clients.Commands.DeleteClientsForNutritionist;
-using FitTrek.Domain.Entities;
+﻿using FitTrek.Domain.Entities;
 using FitTrek.Domain.Exceptions;
 using FitTrek.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace FitTrek.Application.Clients.Commands.GetClientsForNutritionist;
+namespace FitTrek.Application.Clients.Commands.DeleteClientsForNutritionist;
 
 public class DeleteClientsForNutritionistCommandHandler(ILogger<DeleteClientsForNutritionistCommandHandler> logger,
     INutritionistsRepository nutritionistsRepository,

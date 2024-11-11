@@ -1,4 +1,5 @@
-﻿using FitTrek.Application.Nutritionists.Commands.CreateNutritionist;
+﻿using FitTrek.Application.Common.Pagination;
+using FitTrek.Application.Nutritionists.Commands.CreateNutritionist;
 using FitTrek.Application.Nutritionists.Commands.DeleteNutritionist;
 using FitTrek.Application.Nutritionists.Commands.UpdateNutritionist;
 using FitTrek.Application.Nutritionists.Dtos;
@@ -33,9 +34,9 @@ public class NutritionistsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<NutritionistDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<NutritionistDto>>> GetAll(string? name, [FromQuery]PaginationRequest paginationRequest)
     {
-        var nutritionists = await mediator.Send(new GetAllNutritionistsQuery());
+        var nutritionists = await mediator.Send(new GetAllNutritionistsQuery(name, paginationRequest));
 
         return Ok(nutritionists);
     }
