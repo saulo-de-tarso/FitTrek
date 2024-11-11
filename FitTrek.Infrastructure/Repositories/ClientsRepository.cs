@@ -20,7 +20,14 @@ internal class ClientsRepository(FitTrekDbContext dbContext) : IClientsRepositor
         dbContext.RemoveRange(entities);
         await dbContext.SaveChangesAsync();
     }
-        
+
+    /*public async Task<Client?> GetByIdAsync(int id)
+    {
+        var client = await dbContext.Clients.
+            FirstOrDefaultAsync(n => n.Id == id);
+
+        return client;
+    }*/
 
     public Task SaveChanges()
     => dbContext.SaveChangesAsync();

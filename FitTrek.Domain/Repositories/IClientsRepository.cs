@@ -7,7 +7,9 @@ public interface IClientsRepository
 {
     Task<int> Create(Client entity);
     Task DeleteAll(IEnumerable<Client> entities);
-    
+
+    /*Task<Client?> GetByIdAsync(int id);*/
+
     Task SaveChanges();
 
 

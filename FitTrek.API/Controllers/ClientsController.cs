@@ -1,5 +1,6 @@
 ﻿using FitTrek.Application.Clients.Commands.CreateClient;
 using FitTrek.Application.Clients.Commands.DeleteClientsForNutritionist;
+using FitTrek.Application.Clients.Commands.UpdateClient;
 using FitTrek.Application.Clients.Dtos;
 using FitTrek.Application.Clients.Queries.GetClientByIdForNutritionist;
 using FitTrek.Application.Clients.Queries.GetClientsForNutritionist;
@@ -52,29 +53,21 @@ public class ClientsController(IMediator mediator) : ControllerBase
         return Ok(nutritionists);
     }
 
-    /*
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ClientDto?>> GetById(int id)
-    {
-        var nutritionist = await mediator.Send(new GetClientByIdQuery(id));
-
-
-        return Ok(nutritionist);
-    }
-
-    [HttpPatch("{id}")]
+    
+    [HttpPatch("{clientId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(int id, UpdateClientCommand command)
+    public async Task<IActionResult> UpdateForNutritionist(int nutritionistId, int clientId, UpdateClientCommand command)
     {
-        command.Id = id;
+        command.NutritionistId = nutritionistId;
+        command.Id = clientId;
 
+        await mediator.Send((command));
 
-        return NotFound();
+        return NoContent();
     }
 
-    */
+    
 
 
 }

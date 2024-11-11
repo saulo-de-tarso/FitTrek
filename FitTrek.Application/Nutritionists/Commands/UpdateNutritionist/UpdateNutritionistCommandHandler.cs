@@ -16,6 +16,7 @@ public class UpdateNutritionistCommandHandler(ILogger<UpdateNutritionistCommandH
         logger.LogInformation("Updating nutritionist with id {NutritionistId} with the values: {@UpdatedNutritionist}", request.Id, request);
         var nutritionist = await nutritionistsRepository.GetByIdAsync(request.Id);
 
+        
         if (nutritionist is null)
             throw new NotFoundException(nameof(Nutritionist), request.Id.ToString());
 
