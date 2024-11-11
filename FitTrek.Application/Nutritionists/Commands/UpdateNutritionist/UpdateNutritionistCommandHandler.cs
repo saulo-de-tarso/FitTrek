@@ -13,7 +13,7 @@ public class UpdateNutritionistCommandHandler(ILogger<UpdateNutritionistCommandH
 {
     public async Task Handle(UpdateNutritionistCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Updating nutritionist with id {NutritionistId} with {@UpdatedNutritionist}", request.Id, request);
+        logger.LogInformation("Updating nutritionist with id {NutritionistId} with the values: {@UpdatedNutritionist}", request.Id, request);
         var nutritionist = await nutritionistsRepository.GetByIdAsync(request.Id);
 
         if (nutritionist is null)

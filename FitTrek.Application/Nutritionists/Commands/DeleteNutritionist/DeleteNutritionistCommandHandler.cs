@@ -11,7 +11,7 @@ public class DeleteNutritionistCommandHandler(ILogger<DeleteNutritionistCommandH
 {
     public async Task Handle(DeleteNutritionistCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Deleting nutritionist with id {NutritionistId}", request.Id);
+        logger.LogWarning("Deleting nutritionist with id {NutritionistId}", request.Id);
         var nutritionist = await nutritionistsRepository.GetByIdAsync(request.Id);
 
         if (nutritionist is null)

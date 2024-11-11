@@ -10,6 +10,6 @@ public interface INutritionistsRepository
     Task<IEnumerable<Nutritionist>> GetAllAsync();
     Task<Nutritionist?> GetByIdAsync(int id);
     Task SaveChanges();
-    
-    
+
+
 }

@@ -10,7 +10,6 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
     public async Task<int> Create(Nutritionist entity)
     {
         dbContext.Nutritionists.Add(entity);
-        
         await dbContext.SaveChangesAsync();
         return entity.Id;
     }

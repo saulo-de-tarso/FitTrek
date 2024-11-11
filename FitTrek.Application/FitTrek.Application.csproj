@@ -27,8 +27,4 @@
     <ProjectReference Include="..\FitTrek.Domain\FitTrek.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Nutritionists\Validators\" />
-  </ItemGroup>
-
 </Project>

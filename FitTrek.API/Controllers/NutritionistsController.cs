@@ -1,5 +1,4 @@
-﻿using FitTrek.Application.Nutritionists;
-using FitTrek.Application.Nutritionists.Commands.CreateNutritionist;
+﻿using FitTrek.Application.Nutritionists.Commands.CreateNutritionist;
 using FitTrek.Application.Nutritionists.Commands.DeleteNutritionist;
 using FitTrek.Application.Nutritionists.Commands.UpdateNutritionist;
 using FitTrek.Application.Nutritionists.Dtos;
@@ -11,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace FitTrek.API.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/nutritionists")]
 public class NutritionistsController(IMediator mediator) : ControllerBase
 {
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -30,7 +29,7 @@ public class NutritionistsController(IMediator mediator) : ControllerBase
     {
         await mediator.Send(new DeleteNutritionistCommand(id));
 
-        return NotFound();
+        return NoContent();
     }
 
     [HttpGet]
@@ -57,9 +56,10 @@ public class NutritionistsController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> Update(int id, UpdateNutritionistCommand command)
     {
         command.Id = id;
-        
 
-        return NotFound();
+        await mediator.Send((command));
+        
+        return NoContent();
     }
 
 
