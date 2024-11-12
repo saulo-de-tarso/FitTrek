@@ -1,9 +1,11 @@
 ﻿using FitTrek.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitTrek.Infrastructure.Persistence;
 
-internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options) : DbContext(options)
+internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options) 
+    : IdentityDbContext<User>(options)
 {
     internal DbSet<Nutritionist> Nutritionists { get; set; }
     internal DbSet<Client> Clients { get; set; }

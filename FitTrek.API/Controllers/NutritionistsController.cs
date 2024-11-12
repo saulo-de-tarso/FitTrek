@@ -6,12 +6,14 @@ using FitTrek.Application.Nutritionists.Dtos;
 using FitTrek.Application.Nutritionists.Queries.GetNutritionistById;
 using FitTrek.Application.Nutritionists.Queries.GetNutritionists;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitTrek.API.Controllers;
 
 [ApiController]
 [Route("api/nutritionists")]
+[Authorize]
 public class NutritionistsController(IMediator mediator) : ControllerBase
 {
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -34,6 +36,7 @@ public class NutritionistsController(IMediator mediator) : ControllerBase
     }
 
     [HttpGet]
+    
     public async Task<ActionResult<IEnumerable<NutritionistDto>>> GetAll(string? name, [FromQuery]PaginationRequest paginationRequest)
     {
         var nutritionists = await mediator.Send(new GetAllNutritionistsQuery(name, paginationRequest));

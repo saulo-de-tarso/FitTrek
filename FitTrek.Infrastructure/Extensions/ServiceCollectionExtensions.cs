@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using FitTrek.Infrastructure.Seeders;
 using FitTrek.Domain.Repositories;
 using FitTrek.Infrastructure.Repositories;
+using FitTrek.Domain.Entities;
 
 namespace FitTrek.Infrastructure.Extensions;
 
@@ -16,6 +17,9 @@ public static class ServiceCollectionExtensions
         services.AddDbContext<FitTrekDbContext>(options =>
             options.UseSqlServer(connectionString)
                 .EnableSensitiveDataLogging());
+
+        services.AddIdentityApiEndpoints<User>()
+            .AddEntityFrameworkStores<FitTrekDbContext>();
 
         services.AddScoped<INutritionistSeeder, NutritionistSeeder>();
         services.AddScoped<INutritionistsRepository, NutritionistsRepository>();
