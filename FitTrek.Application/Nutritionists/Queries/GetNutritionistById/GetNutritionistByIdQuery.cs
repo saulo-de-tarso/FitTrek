@@ -1,4 +1,5 @@
-﻿using FitTrek.Application.Nutritionists.Dtos;
+﻿using FitTrek.Application.Common.Pagination;
+using FitTrek.Application.Nutritionists.Dtos;
 using MediatR;
 
 namespace FitTrek.Application.Nutritionists.Queries.GetNutritionistById;

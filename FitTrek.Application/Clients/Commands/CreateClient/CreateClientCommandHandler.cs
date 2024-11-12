@@ -14,7 +14,7 @@ public class CreateClientCommandHandler(ILogger<CreateClientCommandHandler> logg
 {
     public async Task<int> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Creating a new client: {@Client}", request);
+        logger.LogInformation("Creating a new client for nutritionist with id {NutritionistId}: {@Client}", request.NutritionistId, request);
 
         var nutritionist = await nutritionistsRepository.GetByIdAsync(request.NutritionistId)
             ?? throw new NotFoundException(nameof(Nutritionist), request.NutritionistId.ToString());

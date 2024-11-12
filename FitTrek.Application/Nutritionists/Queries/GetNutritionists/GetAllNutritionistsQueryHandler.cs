@@ -15,7 +15,7 @@ public class GetAllNutritionistsQueryHandler(ILogger<GetAllNutritionistsQueryHan
 
     public async Task<PagedResult<NutritionistDto>> Handle(GetAllNutritionistsQuery request, CancellationToken cancellationToken)
     {
-        logger.LogInformation(request.Name == null ? $"Getting all nutritionists with name including: {request.Name}"
+        logger.LogInformation(request.Name != null ? $"Getting all nutritionists with name including: {request.Name}"
             : $"Getting all nutritionists");
         var (nutritionists, totalCount) = await nutritionistsRepository.GetAllMatchingNamesAsync(request.Name,
             request.PageSize,

@@ -14,9 +14,10 @@ public class UpdateClientCommandHandler(ILogger<UpdateClientCommandHandler> logg
 {
     public async Task Handle(UpdateClientCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation($"Updating client {request.Id} for nutritionist with id {request.NutritionistId}");
+        logger.LogInformation("Updating client {ClientId} for nutritionist with id {NutritionistId} with the values: {@UpdatedNutritionist}",
+            request.Id, request.NutritionistId, request);
 
-        var nutritionist = await nutritionistsRepository.GetByIdAsync(request.NutritionistId)
+        var nutritionist = await nutritionistsRepository.GetByIdWithClientsAsync(request.NutritionistId)
             ?? throw new NotFoundException(nameof(Nutritionist), request.NutritionistId.ToString());
 
         var client = nutritionist.Clients.FirstOrDefault(c => c.Id == request.Id)

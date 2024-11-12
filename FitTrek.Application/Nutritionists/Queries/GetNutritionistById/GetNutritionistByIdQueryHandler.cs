@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FitTrek.Application.Clients.Dtos;
+using FitTrek.Application.Common.Pagination;
 using FitTrek.Application.Nutritionists.Dtos;
 using FitTrek.Domain.Entities;
 using FitTrek.Domain.Exceptions;
@@ -18,9 +20,11 @@ public class GetNutritionistByIdQueryHandler(ILogger<GetNutritionistByIdQueryHan
         logger.LogInformation("Getting nutritionist with id {NutritionistId}", request.Id);
         var nutritionist = await nutritionistsRepository.GetByIdAsync(request.Id) 
             ?? throw new NotFoundException(nameof(Nutritionist), request.Id.ToString());
+      
 
         var nutritionistDto = mapper.Map<NutritionistDto>(nutritionist);
 
         return nutritionistDto;
+
     }
 }

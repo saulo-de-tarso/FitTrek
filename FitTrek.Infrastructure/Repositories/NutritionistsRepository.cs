@@ -42,7 +42,6 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
         var nutritionists = await baseQuery
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
-            .Include(n => n.Clients)
             .ToListAsync();
             
             
@@ -50,6 +49,14 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
     }
 
     public async Task<Nutritionist?> GetByIdAsync(int id)
+    {
+        var nutritionist = await dbContext.Nutritionists.
+            FirstOrDefaultAsync(n => n.Id == id);
+
+        return nutritionist;
+    }
+
+    public async Task<Nutritionist?> GetByIdWithClientsAsync(int id)
     {
         var nutritionist = await dbContext.Nutritionists.
             Include(n => n.Clients).

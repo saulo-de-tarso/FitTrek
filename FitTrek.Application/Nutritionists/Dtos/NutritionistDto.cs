@@ -1,4 +1,5 @@
 ﻿using FitTrek.Application.Clients.Dtos;
+using FitTrek.Domain.Entities;
 
 namespace FitTrek.Application.Nutritionists.Dtos;
 
@@ -14,8 +15,6 @@ public class NutritionistDto
     public DateTime DateOfBirth { get; set; } = default!;
     public decimal CurrentMonthlyRevenue { get; set; }
 
-    public List<ClientDto> Clients { get; set; } = [];
-    
     public DateTime CreatedAt { get; set; } = default!;
     public DateTime? UpdatedAt { get; set; }
 }

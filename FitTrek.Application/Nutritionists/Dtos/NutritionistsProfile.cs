@@ -17,6 +17,7 @@ public class NutritionistsProfile : Profile
 
         CreateMap<Nutritionist, NutritionistDto>();
 
+
         CreateMap<UpdateNutritionistCommand, Nutritionist>()
             .AfterMap((src, dest) =>
             {
