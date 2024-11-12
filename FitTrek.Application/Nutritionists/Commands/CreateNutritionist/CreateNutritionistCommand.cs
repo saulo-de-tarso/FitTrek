@@ -21,5 +21,5 @@ public class CreateNutritionistCommand : IRequest<int>
     public string PhoneNumber { get; set; } = default!;
     [Required]
     
-    public DateTime DateOfBirth { get; set; } = default!;
+    public DateOnly DateOfBirth { get; set; } = default!;
 }

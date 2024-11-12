@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FitTrek.Domain.Entities;
 using FitTrek.Domain.Exceptions;
+using FitTrek.Domain.Extensions;
 using FitTrek.Domain.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,10 @@ public class CreateClientCommandHandler(ILogger<CreateClientCommandHandler> logg
         var client = mapper.Map<Client>(request);
 
         int id = await clientsRepository.Create(client);
+
+        nutritionist.CurrentMonthlyRevenue += client.SubscriptionPlan.GetRevenue();
+
+        await nutritionistsRepository.SaveChanges();
 
         return id;
     }

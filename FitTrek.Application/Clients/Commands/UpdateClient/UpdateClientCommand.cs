@@ -16,9 +16,9 @@ public class UpdateClientCommand : IRequest
     [RegularExpression(@"^\([1-9]{2}\) 9[0-9]{4}-[0-9]{4}$",
         ErrorMessage = "The phone number must be in the format (XX) 9XXXX-XXXX. DDD can't have zeroes in it.")]
     public string? PhoneNumber { get; set; }
-    [EnumDataType(typeof(GenderEnum), ErrorMessage = "Gender must be Male, Female or Other")]
-    public string? Gender { get; set; }
-    public DateTime? DateOfBirth { get; set; }
+    [EnumDataType(typeof(Gender))]
+    public Gender? Gender { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 
     [Range(50, 300, ErrorMessage = "Height must be between 50 and 300 cm")]
     public int? HeightInCm { get; set; }
@@ -29,6 +29,6 @@ public class UpdateClientCommand : IRequest
     public int NutritionistId { get; set; }
 
     public bool? IsActive { get; set; }
-    [EnumDataType(typeof(SubscriptionPlanEnum), ErrorMessage = "Subscription plan must be Silver, Gold or Platinum")]
-    public string? SubscriptionPlan { get; set; }
+    [EnumDataType(typeof(SubscriptionPlan))]
+    public SubscriptionPlan? SubscriptionPlan { get; set; }
 }

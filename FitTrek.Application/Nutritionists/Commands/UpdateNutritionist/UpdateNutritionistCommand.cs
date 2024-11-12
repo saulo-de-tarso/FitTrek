@@ -17,5 +17,5 @@ public class UpdateNutritionistCommand : IRequest
         ErrorMessage = "The phone number must be in the format (XX) 9XXXX-XXXX. DDD can't have zeroes in it.")]
     public string? PhoneNumber { get; set; }
 
-    public DateTime? DateOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 }

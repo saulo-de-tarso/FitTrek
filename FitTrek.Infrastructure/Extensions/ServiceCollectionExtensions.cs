@@ -6,6 +6,7 @@ using FitTrek.Infrastructure.Seeders;
 using FitTrek.Domain.Repositories;
 using FitTrek.Infrastructure.Repositories;
 using FitTrek.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace FitTrek.Infrastructure.Extensions;
 
@@ -19,6 +20,7 @@ public static class ServiceCollectionExtensions
                 .EnableSensitiveDataLogging());
 
         services.AddIdentityApiEndpoints<User>()
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<FitTrekDbContext>();
 
         services.AddScoped<INutritionistSeeder, NutritionistSeeder>();

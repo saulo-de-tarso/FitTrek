@@ -26,6 +26,7 @@ public class ClientsController(IMediator mediator) : ControllerBase
 
         int clientId = await mediator.Send(command);
 
+
         return CreatedAtAction(nameof(GetByIdForNutritionist), new { nutritionistId, clientId }, null);
     }
 
@@ -39,6 +40,7 @@ public class ClientsController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
+    
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpDelete("{clientId}")]
@@ -83,6 +85,8 @@ public class ClientsController(IMediator mediator) : ControllerBase
     }
 
     
+
+
 
 
 }

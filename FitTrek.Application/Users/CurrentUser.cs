@@ -1,4 +1,4 @@
-﻿namespace FitTrek.Application.User;
+﻿namespace FitTrek.Application.Users;
 
 public record class CurrentUser(string Id, string Email, IEnumerable<string> Roles)
 {

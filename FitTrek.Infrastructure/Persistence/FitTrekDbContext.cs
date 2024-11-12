@@ -1,4 +1,5 @@
-﻿using FitTrek.Domain.Entities;
+﻿using FitTrek.Application.Clients.Enums;
+using FitTrek.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +19,12 @@ internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options)
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-                        
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Nutritionist)
+            .WithOne(n => n.User)
+            .HasForeignKey<Nutritionist>(n => n.UserId);
+        
         //nutritionist relationships
 
         modelBuilder.Entity<Nutritionist>()
@@ -38,12 +44,14 @@ internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options)
             .HasForeignKey(pn => pn.NutritionistId)
             .OnDelete(DeleteBehavior.NoAction);
 
+               
         //client relationships
 
         modelBuilder.Entity<Client>()
             .HasMany(c => c.DietPlans)
             .WithOne()
             .HasForeignKey(dp => dp.ClientId);
+            
 
         modelBuilder.Entity<Client>()
             .HasMany(c => c.ClientStats)
@@ -54,6 +62,22 @@ internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options)
             .HasMany(c => c.ProgressNotes)
             .WithOne()
             .HasForeignKey(pn => pn.ClientId);
+
+        //converting enum types
+
+        modelBuilder.Entity<Client>()
+            .Property(c => c.Gender)
+            .HasConversion(
+                g => g.ToString(),     
+                g => (Gender)Enum.Parse(typeof(Gender), g)  
+            );
+
+        modelBuilder.Entity<Client>()
+            .Property(c => c.SubscriptionPlan)
+            .HasConversion(
+                sp => sp.ToString(),     
+                sp => (SubscriptionPlan)Enum.Parse(typeof(SubscriptionPlan), sp)  
+            );
 
 
         //diet plan relationships

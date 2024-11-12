@@ -5,6 +5,7 @@ using FitTrek.Application.Nutritionists.Commands.UpdateNutritionist;
 using FitTrek.Application.Nutritionists.Dtos;
 using FitTrek.Application.Nutritionists.Queries.GetNutritionistById;
 using FitTrek.Application.Nutritionists.Queries.GetNutritionists;
+using FitTrek.Domain.Constants;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +14,7 @@ namespace FitTrek.API.Controllers;
 
 [ApiController]
 [Route("api/nutritionists")]
-[Authorize]
+[Authorize(Roles = UserRoles.Admin)]
 public class NutritionistsController(IMediator mediator) : ControllerBase
 {
     [ProducesResponseType(StatusCodes.Status201Created)]
