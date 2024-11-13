@@ -63,7 +63,6 @@
         <li><a href="#autenticacao">Autenticação e Autorização</a></li>
         <li><a href="#instalacao">Instalação e Configuração</a></li>
         <li><a href="#endpoints">Endpoints da API</a></li>
-        <li><a href="#identidade">Endpoint de Identidade</a></li>
         <li><a href="#seeder">Seeder</a></li>
         <li><a href="#deploy">Implantação no Azure</a></li>
     </ul>
@@ -259,48 +258,79 @@ cd FitTrek</code></pre>
 
 <h3>Planos de dieta (DietPlans) - Requer autenticação e apenas nutricionistas (Nutritionist) estão autorizados</h3>
     <p><strong>POST /api/dietplans</strong></p>
-    <p><strong>Descrição:</strong> Cria um novo plano de dieta para um cliente do nutricionista logado. 
-        Validação: e-mail tem que ser um valor válido, e número de telefone deve ser válido e estar no formato (XX) 9XXXX-XXXX.</p>
+    <p><strong>Descrição:</strong> Cria um novo plano de dieta para um cliente do nutricionista logado. Caso o Id do cliente não exista, ou seja relacionado a outro nutricionista, 
+        retorna uma exceção informando que o cliente não existe. </p>
     <pre><code>{
-        "firstName": "Nome",
-        "lastName": "Sobrenome",
-        "email": "email-do-plano de dieta@exemplo.com",
-        "phoneNumber": "(11) 92389-9533",
-        "gender": "Male",
-        "dateOfBirth": "2024-11-13",
-        "heightInCm": 300,
-        "weightInKg": 500,
-        "subscriptionPlan": "Silver"
+        "goal": "Perda de peso",
+        "startDate": "2024-11-13",
+        "endDate": "2024-11-13",
+        "calories": 0
 }</code></pre>
 
-    <p><strong>GET /api/clients</strong></p>
-    <p><strong>Descrição:</strong> Retorna todos os plano de dietas cadastrados na base de dados para o nutricionista logado. 
-        Podem ser filtrados por caracteres contendo nos nomes, e ordenados por nome ou receita mensal atual, em ordem crescente ou decrescente. Resultados
-    paginados e o usuário pode escolher quantos resultados exibir por página (5, 10, 15 ou 30).</p>
+    <p><strong>GET /api/dietplans</strong></p>
+    <p><strong>Descrição:</strong> Retorna todos os plano de dietas cadastrados na base de dados para o Id de cliente informado. Caso o Id do cliente não exista, ou seja 
+        relacionado a outro nutricionista, retorna uma exceção informando que o cliente não existe. 
+        Resultados paginados e o usuário pode escolher quantos resultados exibir por página (5, 10, 15 ou 30).</p>
 
-    <p><strong>GET /api/clients/{id}</strong></p>
-    <p><strong>Descrição:</strong> Retorna dados do plano de dieta informando o Id. 
-        Caso o Id não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o plano de dieta não existe.</p>
+    <p><strong>GET /api/dietplans/{id}</strong></p>
+    <p><strong>Descrição:</strong> Retorna dados do plano de dieta informando o Id do plano de dieta e o Id do cliente. 
+        Caso o Id do cliente não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o cliente não existe.
+        Caso o Id do plano de dieta não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o plano de dieta não existe.</p>
 
-    <p><strong>DELETE /api/clients/{id}</strong></p>
-    <p><strong>Descrição:</strong> Exclui um plano de dieta informando o Id. 
-        Caso o Id não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o plano de dieta não existe.</p>
+    <p><strong>DELETE /api/dietplans/{id}</strong></p>
+    <p><strong>Descrição:</strong> Exclui um plano de dieta informando o Id do plano de dieta e o Id do cliente. 
+        Caso o Id do cliente não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o cliente não existe.
+        Caso o Id do plano de dieta não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o plano de dieta não existe.</p>
 
-        <p><strong>PATCH /api/clients/{id}</strong></p>
-    <p><strong>Descrição:</strong> Atualiza dados de um plano de dieta informando o Id. 
-        Caso o Id não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o plano de dieta não existe. 
-    É possível passar dados parcialmente, caso o usuário queira atualizar apenas uma propriedade. 
-    Validação: e-mail tem que ser um valor válido, e número de telefone deve ser válido e estar no formato (XX) 9XXXX-XXXX.</p>
+        <p><strong>PATCH /api/dietplans/{id}</strong></p>
+    <p><strong>Descrição:</strong> Atualiza dados de um plano de dieta informando o Id do plano de dieta e o Id do cliente.  
+        Caso o Id do cliente não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o cliente não existe.
+        Caso o Id do plano de dieta não exista, ou seja relacionado a outro nutricionista, retorna uma exceção informando que o plano de dieta não existe. 
+    É possível passar dados parcialmente, caso o usuário queira atualizar apenas uma propriedade. </p>
     <pre><code>{
-        "firstName": "Nome",
-        "lastName": "Sobrenome",
-        "email": "email-do-plano de dieta@exemplo.com",
-        "phoneNumber": "(11) 92389-9533",
-        "gender": "Male",
-        "dateOfBirth": "2024-11-13",
-        "heightInCm": 200,
-        "weightInKg": 500,
-        "subscriptionPlan": "Silver"
+        "goal": "Ganho de massa",
+        "startDate": "2024-11-13",
+        "endDate": "2024-11-13",
+        "calories": 0
+}</code></pre>
+
+<h3>Refeições (Meals) - Requer autenticação e apenas nutricionistas (Nutritionist) estão autorizados</h3>
+    <p><strong>POST api/dietplans/{dietPlanId}/meals</strong></p>
+    <p><strong>Descrição:</strong> Cria uma nova refeição para o plano de dieta, informando seu Id. Caso o plano de dieta seja relacionado a outro nutricionista,
+        retorna Status 403 (Forbidden). Caso não exista, retorna uma exceção informando que o plano de dieta não existe.  </p>
+    <pre><code>{
+        "mealType": "Café da manhã",
+        "description": "2 ovos, 2 fatias de pão integral, 1 colher de requeijão.",
+        "calories": 500,
+        "carbs": 35,
+        "proteins": 17,
+        "fats": 10
+}</code></pre>
+
+    <p><strong>GET api/dietplans/{dietPlanId}/meals</strong></p>
+    <p><strong>Descrição:</strong> Retorna todas as refeições cadastrados na base de dados para o plano de dieta informado pelo Id. 
+        Caso o plano de dieta seja relacionado a outro nutricionista,
+        retorna Status 403 (Forbidden). Caso não exista, retorna uma exceção informando que o plano de dieta não existe.</p>
+
+
+    <p><strong>DELETE api/dietplans/{dietPlanId}/meals/{id}</strong></p>
+    <p><strong>Descrição:</strong> Exclui uma refeição informando o Id do plano de dieta e o Id da refeição. 
+        Caso o plano de dieta seja relacionado a outro nutricionista,
+        retorna Status 403 (Forbidden). Caso o Id da refeição não exista, retorna uma exceção informando que a refeição não existe.</p>
+
+        <p><strong>PATCH api/dietplans/{dietPlanId}/meals/{id}</strong></p>
+    <p><strong>Descrição:</strong> Atualiza dados de um cliente informando o Id do plano de dieta e o Id da refeição. 
+        Caso o plano de dieta seja relacionado a outro nutricionista,
+        retorna Status 403 (Forbidden). Caso o Id da refeição não exista, retorna uma exceção informando que a refeição não existe. 
+    É possível passar dados parcialmente, caso o usuário queira atualizar apenas uma propriedade. 
+    </p>
+    <pre><code>{
+        "mealType": "Café da manhã",
+        "description": "2 ovos, 2 fatias de pão integral, 1 colher de requeijão.",
+        "calories": 540,
+        "carbs": 42,
+        "proteins": 17,
+        "fats": 10
 }</code></pre>
 
     <h2 id="seeder">Seeder</h2>
@@ -308,7 +338,7 @@ cd FitTrek</code></pre>
     <ul>
         <li>Cria um <strong>nutricionista</strong> inicial.</li>
         <li>Cria um <strong>cliente</strong> inicial.</li>
-        <li>Cria os <strong>papéis de usuário</strong> padrão.</li>
+        <li>Cria os <strong>papéis de usuário</strong> padrões: Admin e Nutritionist.</li>
     </ul>
 
     <h2 id="deploy">Implantação no Azure</h2>
