@@ -1,7 +1,7 @@
 ﻿
 namespace FitTrek.Infrastructure.Seeders
 {
-    public interface INutritionistSeeder
+    public interface IFitTrekSeeder
     {
         Task Seed();
         

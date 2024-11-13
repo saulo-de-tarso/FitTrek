@@ -23,7 +23,7 @@ public static class ServiceCollectionExtensions
             .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<FitTrekDbContext>();
 
-        services.AddScoped<INutritionistSeeder, NutritionistSeeder>();
+        services.AddScoped<IFitTrekSeeder, FitTrekSeeder>();
         services.AddScoped<INutritionistsRepository, NutritionistsRepository>();
         services.AddScoped<IClientsRepository, ClientsRepository>();
 

@@ -57,14 +57,6 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
         return nutritionist;
     }
 
-    public async Task<Nutritionist?> GetByIdWithClientsAsync(int id)
-    {
-        var nutritionist = await dbContext.Nutritionists.
-            Include(n => n.Clients).
-            FirstOrDefaultAsync(n => n.Id == id);
-
-        return nutritionist;
-    }
 
     public async Task<Nutritionist> GetByUserIdAsync(string userId)
     {

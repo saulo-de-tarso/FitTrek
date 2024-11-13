@@ -3,10 +3,14 @@ using FitTrek.Domain.Constants;
 using FitTrek.Domain.Entities;
 using FitTrek.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
+using System.Data;
 
 namespace FitTrek.Infrastructure.Seeders;
 
-internal class NutritionistSeeder(FitTrekDbContext dbContext) : INutritionistSeeder
+internal class FitTrekSeeder(FitTrekDbContext dbContext, 
+    UserManager<User> userManager,
+    IConfiguration configuration) : IFitTrekSeeder
 {
     public async Task Seed()
     {
@@ -24,7 +28,33 @@ internal class NutritionistSeeder(FitTrekDbContext dbContext) : INutritionistSee
                 var roles = GetRoles();
                 dbContext.Roles.AddRange(roles);
                 await dbContext.SaveChangesAsync();
+
             }
+
+            //seeding an admin
+            var email = configuration["AdminUser:Email"];
+            var user = await userManager.FindByEmailAsync(email);
+            
+            var password = configuration["AdminUser:Password"];
+
+            if (user == null)
+            {
+                user = new User { Email = email };
+
+                var result = await userManager.CreateAsync(user, password);
+                if (result.Succeeded)
+                    await userManager.AddToRoleAsync(user, UserRoles.Admin);
+            }
+            else
+            {
+                var roles = await userManager.GetRolesAsync(user);
+                if (!roles.Contains(UserRoles.Admin))
+                    await userManager.AddToRoleAsync(user, UserRoles.Admin);
+
+            }
+
+
+
         }
     }
 
@@ -77,5 +107,33 @@ internal class NutritionistSeeder(FitTrekDbContext dbContext) : INutritionistSee
         return roles;
     }
 
-     
+    private static async Task SeedAdminUser(UserManager<User> userManager)
+    {
+        var email = "admin@fittrek.com";
+        var user = await userManager.FindByEmailAsync(email);
+
+        
+        var password = Environment.GetEnvironmentVariable("ADMIN_PASSWORD");
+
+        if (user == null)
+        {
+
+
+            user = new User { Email = email };
+
+            var result = await userManager.CreateAsync(user, password);
+            if (result.Succeeded)
+                await userManager.AddToRoleAsync(user, UserRoles.Admin);
+        }
+        else
+        {
+            var roles = await userManager.GetRolesAsync(user);
+            if (!roles.Contains(UserRoles.Admin))
+                await userManager.AddToRoleAsync(user, UserRoles.Admin);
+            
+        }
+    }
+
+
+
 }
