@@ -1,8 +1,10 @@
 ﻿using FitTrek.Application.Users;
 using FitTrek.Domain.Entities;
+using FitTrek.Domain.Enums;
 using FitTrek.Domain.Repositories;
 using FitTrek.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace FitTrek.Infrastructure.Repositories;
 
@@ -29,7 +31,11 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
         return nutritionists;
     }
 
-    public async Task<(IEnumerable<Nutritionist>, int)> GetAllMatchingNamesAsync(string? name, int pageSize, int pageNumber)
+    public async Task<(IEnumerable<Nutritionist>, int)> GetAllMatchingAsync(string? name,
+        int pageSize,
+        int pageNumber,
+        NutritionistSortBy? sortBy,
+        SortDirection? sortDirection)
     {
         var nameLower = name?.ToLower();
 
@@ -40,12 +46,41 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
 
         var totalCount = await baseQuery.CountAsync();
 
+        var columnsSelector = new Dictionary<string, Expression<Func<Nutritionist, object>>>
+                {
+                    { nameof(Nutritionist.FirstName), n => n.FirstName },
+                    { nameof(Nutritionist.CurrentMonthlyRevenue), n => n.CurrentMonthlyRevenue }
+                };
+
+
+        if (sortBy == NutritionistSortBy.FirstName)
+        {
+            if (sortDirection == SortDirection.Ascending)
+                baseQuery = baseQuery.OrderBy(columnsSelector[nameof(Nutritionist.FirstName)]);
+            if (sortDirection == SortDirection.Descending)
+                baseQuery = baseQuery.OrderByDescending(columnsSelector[nameof(Nutritionist.CurrentMonthlyRevenue)]);
+
+        }
+
+        if (sortBy == NutritionistSortBy.CurrentMonthlyRevenue)
+        {
+            if (sortDirection == SortDirection.Ascending)
+                baseQuery = baseQuery.OrderBy(columnsSelector[nameof(Nutritionist.FirstName)]);
+            if (sortDirection == SortDirection.Descending)
+                baseQuery = baseQuery.OrderByDescending(columnsSelector[nameof(Nutritionist.CurrentMonthlyRevenue)]);
+
+        }
+
+
+
+
+
         var nutritionists = await baseQuery
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync();
-            
-            
+
+
         return (nutritionists, totalCount);
     }
 
@@ -60,7 +95,7 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
 
     public async Task<Nutritionist> GetByUserIdAsync(string userId)
     {
-        
+
         var nutritionist = await dbContext.Nutritionists.
             Include(n => n.Clients).
             FirstOrDefaultAsync(n => n.UserId == userId);
@@ -70,5 +105,5 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
 
     public Task SaveChanges()
     => dbContext.SaveChangesAsync();
-    
+
 }

@@ -6,6 +6,7 @@ using FitTrek.Application.Nutritionists.Dtos;
 using FitTrek.Application.Nutritionists.Queries.GetNutritionistById;
 using FitTrek.Application.Nutritionists.Queries.GetNutritionists;
 using FitTrek.Domain.Constants;
+using FitTrek.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,9 +39,12 @@ public class NutritionistsController(IMediator mediator) : ControllerBase
 
     [HttpGet]
     
-    public async Task<ActionResult<IEnumerable<NutritionistDto>>> GetAll(string? name, [FromQuery]PaginationRequest paginationRequest)
+    public async Task<ActionResult<IEnumerable<NutritionistDto>>> GetAll(string? name,
+        [FromQuery]PaginationRequest paginationRequest,
+        [FromQuery]NutritionistSortBy sortBy,
+        [FromQuery]SortDirection sortDirection)
     {
-        var nutritionists = await mediator.Send(new GetAllNutritionistsQuery(name, paginationRequest));
+        var nutritionists = await mediator.Send(new GetAllNutritionistsQuery(name, paginationRequest, sortBy, sortDirection));
 
         return Ok(nutritionists);
     }

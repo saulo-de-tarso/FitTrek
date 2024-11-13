@@ -17,9 +17,11 @@ public class GetAllNutritionistsQueryHandler(ILogger<GetAllNutritionistsQueryHan
     {
         logger.LogInformation(request.Name != null ? $"Getting all nutritionists with name including: {request.Name}"
             : $"Getting all nutritionists");
-        var (nutritionists, totalCount) = await nutritionistsRepository.GetAllMatchingNamesAsync(request.Name,
+        var (nutritionists, totalCount) = await nutritionistsRepository.GetAllMatchingAsync(request.Name,
             request.PageSize,
-            request.PageNumber);
+            request.PageNumber,
+            request.SortBy,
+            request.SortDirection);
 
         var nutritionistsDto = mapper.Map<IEnumerable<NutritionistDto>>(nutritionists);
 

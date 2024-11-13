@@ -12,9 +12,7 @@ internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options)
     internal DbSet<Client> Clients { get; set; }
     internal DbSet<DietPlan> DietPlans { get; set; }
     internal DbSet<Meal> Meals { get; set; }
-    internal DbSet<ClientStats> ClientsStats { get; set; }
-    internal DbSet<ProgressNotes> ProgressNotes { get; set; }
-
+    
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -45,11 +43,7 @@ internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options)
             .HasForeignKey(dp => dp.NutritionistId)
             .OnDelete(DeleteBehavior.NoAction);
 
-        modelBuilder.Entity<Nutritionist>()
-            .HasMany(n => n.ProgressNotes)
-            .WithOne()
-            .HasForeignKey(pn => pn.NutritionistId)
-            .OnDelete(DeleteBehavior.NoAction);
+        
 
                
         //client relationships
@@ -60,16 +54,7 @@ internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options)
             .HasForeignKey(dp => dp.ClientId);
             
 
-        modelBuilder.Entity<Client>()
-            .HasMany(c => c.ClientStats)
-            .WithOne()
-            .HasForeignKey(cs => cs.ClientId);
-
-        modelBuilder.Entity<Client>()
-            .HasMany(c => c.ProgressNotes)
-            .WithOne()
-            .HasForeignKey(pn => pn.ClientId);
-
+        
         //converting enum types
 
         modelBuilder.Entity<Client>()

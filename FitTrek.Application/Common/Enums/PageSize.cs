@@ -2,7 +2,7 @@
 
 namespace FitTrek.Application.Common.Enums;
 
-public enum PageSizeEnum
+public enum PageSize
 {
     [Display(Name = "5")]
     Size5 = 5,

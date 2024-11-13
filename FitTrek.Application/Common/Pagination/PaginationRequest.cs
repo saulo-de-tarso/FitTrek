@@ -12,6 +12,6 @@ public class PaginationRequest
     public int PageNumber { get; set; }
 
     [Required]
-    [EnumDataType(typeof(PageSizeEnum), ErrorMessage = "PageSize must be in the interval [5, 10, 15, 30]")]
-    public PageSizeEnum PageSize { get; set; }
+    [EnumDataType(typeof(PageSize), ErrorMessage = "PageSize must be in the interval [5, 10, 15, 30]")]
+    public PageSize PageSize { get; set; }
 }

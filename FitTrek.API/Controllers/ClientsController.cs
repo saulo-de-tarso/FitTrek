@@ -6,6 +6,7 @@ using FitTrek.Application.Clients.Queries.GetClientById;
 using FitTrek.Application.Clients.Queries.GetClients;
 using FitTrek.Application.Common.Pagination;
 using FitTrek.Domain.Constants;
+using FitTrek.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -43,9 +44,12 @@ public class ClientsController(IMediator mediator) : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ClientDto>>> GetAll(string? name, [FromQuery] PaginationRequest paginationRequest)
+    public async Task<ActionResult<IEnumerable<ClientDto>>> GetAll(string? name,
+        [FromQuery] PaginationRequest paginationRequest,
+        [FromQuery] ClientSortBy sortBy,
+        [FromQuery] SortDirection sortDirection)
     {
-        var nutritionists = await mediator.Send(new GetAllClientsQuery(name, paginationRequest));
+        var nutritionists = await mediator.Send(new GetAllClientsQuery(name, paginationRequest, sortBy, sortDirection));
 
         return Ok(nutritionists);
     }

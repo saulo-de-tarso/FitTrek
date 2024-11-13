@@ -1,5 +1,6 @@
 ﻿using FitTrek.API.Middlewares;
 using FitTrek.Application.Clients.Enums;
+using FitTrek.Domain.Enums;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -64,6 +65,37 @@ public static class WebApplicationBuilderExtensions
                 new OpenApiString("Platinum")   
             },
                 Example = new OpenApiString("Silver")  
+            });
+
+            c.MapType<NutritionistSortBy>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Enum = new List<IOpenApiAny>
+            {
+                new OpenApiString("FirstName"),
+                new OpenApiString("CurrentMonthlyRevenue")
+            }
+            });
+
+            c.MapType<ClientSortBy>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Enum = new List<IOpenApiAny>
+            {
+                new OpenApiString("FirstName"),
+                new OpenApiString("WeightInKg"),
+                new OpenApiString("HeightInCm"),
+            }
+            });
+
+            c.MapType<SortDirection>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Enum = new List<IOpenApiAny>
+            {
+                new OpenApiString("Ascending"),
+                new OpenApiString("Descending")
+            }
             });
         });
 
