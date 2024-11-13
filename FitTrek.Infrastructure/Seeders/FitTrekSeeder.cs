@@ -31,29 +31,6 @@ internal class FitTrekSeeder(FitTrekDbContext dbContext,
 
             }
 
-            //seeding an admin
-            var email = configuration["AdminUser:Email"];
-            var user = await userManager.FindByEmailAsync(email);
-            
-            var password = configuration["AdminUser:Password"];
-
-            if (user == null)
-            {
-                user = new User { Email = email };
-
-                var result = await userManager.CreateAsync(user, password);
-                if (result.Succeeded)
-                    await userManager.AddToRoleAsync(user, UserRoles.Admin);
-            }
-            else
-            {
-                var roles = await userManager.GetRolesAsync(user);
-                if (!roles.Contains(UserRoles.Admin))
-                    await userManager.AddToRoleAsync(user, UserRoles.Admin);
-
-            }
-
-
 
         }
     }

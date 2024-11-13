@@ -67,7 +67,7 @@ public class ClientsController(IMediator mediator) : ControllerBase
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateForNutritionist(int id, UpdateClientCommand command)
+    public async Task<IActionResult> Update(int id, UpdateClientCommand command)
     {
         command.Id = id;
 

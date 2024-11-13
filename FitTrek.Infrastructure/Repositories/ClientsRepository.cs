@@ -15,11 +15,6 @@ internal class ClientsRepository(FitTrekDbContext dbContext) : IClientsRepositor
         return entity.Id;
     }
 
-    public async Task DeleteAll(IEnumerable<Client> entities)
-    {
-        dbContext.RemoveRange(entities);
-        await dbContext.SaveChangesAsync();
-    }
 
     public async Task DeleteById(Client entity)
     {

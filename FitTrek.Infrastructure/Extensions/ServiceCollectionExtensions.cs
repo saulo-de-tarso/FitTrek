@@ -26,7 +26,8 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IFitTrekSeeder, FitTrekSeeder>();
         services.AddScoped<INutritionistsRepository, NutritionistsRepository>();
         services.AddScoped<IClientsRepository, ClientsRepository>();
+        services.AddScoped<IDietPlansRepository, DietPlansRepository>();
 
-      
+
     }
 }

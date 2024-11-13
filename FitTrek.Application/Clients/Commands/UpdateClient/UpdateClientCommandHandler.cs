@@ -25,7 +25,7 @@ public class UpdateClientCommandHandler(ILogger<UpdateClientCommandHandler> logg
 
         request.NutritionistId = nutritionist.Id;
 
-        logger.LogInformation("Updating client {ClientId} for nutritionist with id {NutritionistId} with the values: {@UpdatedNutritionist}",
+        logger.LogInformation("Updating client {ClientId} for nutritionist with id {NutritionistId} with the values: {@UpdatedClient}",
             request.Id, request.NutritionistId, request);
 
         var client = nutritionist.Clients.FirstOrDefault(c => c.Id == request.Id)

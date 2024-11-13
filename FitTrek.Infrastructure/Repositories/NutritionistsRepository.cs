@@ -23,13 +23,6 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<Nutritionist>> GetAllAsync()
-    {
-        var nutritionists = await dbContext.Nutritionists.
-            Include(n => n.Clients)
-            .ToListAsync();
-        return nutritionists;
-    }
 
     public async Task<(IEnumerable<Nutritionist>, int)> GetAllMatchingAsync(string? name,
         int pageSize,
@@ -98,6 +91,17 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
 
         var nutritionist = await dbContext.Nutritionists.
             Include(n => n.Clients).
+            FirstOrDefaultAsync(n => n.UserId == userId);
+
+        return nutritionist!;
+    }
+
+    public async Task<Nutritionist> GetByUserIdWithDietPlanAsync(string userId)
+    {
+
+        var nutritionist = await dbContext.Nutritionists.
+            Include(n => n.Clients).
+            Include(n => n.DietPlans).
             FirstOrDefaultAsync(n => n.UserId == userId);
 
         return nutritionist!;

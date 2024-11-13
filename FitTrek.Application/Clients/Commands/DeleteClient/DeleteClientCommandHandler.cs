@@ -20,9 +20,7 @@ public class DeleteClientCommandHandler(ILogger<DeleteClientCommandHandler> logg
 
         var nutritionist = await nutritionistsRepository.GetByUserIdAsync(user!.Id);
 
-        request.NutritionistId = nutritionist.Id;
-
-        logger.LogWarning($"Removing client with id {request.ClientId} for nutritionist with id {request.NutritionistId}");
+        logger.LogWarning($"Removing client with id {request.ClientId} for nutritionist with id {nutritionist.Id}");
 
         var client = nutritionist.Clients.FirstOrDefault(c => c.Id == request.ClientId)
             ?? throw new NotFoundException(nameof(Client), request.ClientId.ToString());
