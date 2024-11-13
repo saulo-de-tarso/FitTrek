@@ -19,3 +19,5 @@ A documentação detalhada da API pode ser acessada no arquivo `documentation.ht
    ```bash
    git clone https://github.com/saulo-de-tarso/FitTrek.git
    cd FitTrek
+
+2. Acesse o Arquivo de Documentação: O arquivo documentation.html está localizado no diretório raiz do repositório. Abra este arquivo em um navegador para ver a documentação completa da API.
