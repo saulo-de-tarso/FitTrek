@@ -27,7 +27,6 @@ public class ClientsController(IMediator mediator) : ControllerBase
        
         int id = await mediator.Send(command);
 
-        //return Created();
         return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 

@@ -2,6 +2,7 @@
 using FitTrek.Domain.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Xml;
 
 namespace FitTrek.Infrastructure.Persistence;
 
@@ -43,18 +44,51 @@ internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options)
             .HasForeignKey(dp => dp.NutritionistId)
             .OnDelete(DeleteBehavior.NoAction);
 
+        //nutritionist indexes
         
+        modelBuilder.Entity<Nutritionist>()
+            .HasIndex(n => n.FirstName)
+            .HasDatabaseName("IX_Nutritionist_FirstName_Filter");
 
-               
+        modelBuilder.Entity<Nutritionist>()
+            .HasIndex(n => n.LastName)
+            .HasDatabaseName("IX_Nutritionist_LastName_Filter");
+
+        modelBuilder.Entity<Nutritionist>()
+            .HasIndex(n => n.CurrentMonthlyRevenue)
+            .HasDatabaseName("IX_Nutritionist_CurrentMonthlyRevenue_Filter");
+
+
+
+
+
         //client relationships
 
         modelBuilder.Entity<Client>()
             .HasMany(c => c.DietPlans)
             .WithOne()
             .HasForeignKey(dp => dp.ClientId);
-            
 
-        
+        //client indexes
+
+        modelBuilder.Entity<Client>()
+            .HasIndex(n => n.FirstName)
+            .HasDatabaseName("IX_Client_FirstName_Filter");
+
+        modelBuilder.Entity<Client>()
+            .HasIndex(n => n.LastName)
+            .HasDatabaseName("IX_Client_LastName_Filter");
+
+        modelBuilder.Entity<Client>()
+            .HasIndex(n => n.WeightInKg)
+            .HasDatabaseName("IX_Client_WeightInKg_Filter");
+
+        modelBuilder.Entity<Client>()
+            .HasIndex(n => n.HeightInCm)
+            .HasDatabaseName("IX_Client_HeightInCm_Filter");
+
+
+
         //converting enum types
 
         modelBuilder.Entity<Client>()
