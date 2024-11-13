@@ -11,9 +11,6 @@ public class AssignUserRoleCommandValidator : AbstractValidator<AssignUserRoleCo
             .NotEmpty().When(u => u.RoleName == UserRoles.Nutritionist)
             .WithMessage("Nutritionist id is required when unassigning a role for nutritionist");
 
-        RuleFor(u => u.ClientId)
-            .NotEmpty().When(u => u.RoleName == UserRoles.Client)
-            .WithMessage("Client id is required when unassigning a role for nutritionist");
     }
 
 }

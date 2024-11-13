@@ -33,14 +33,6 @@ public class AssignUserRoleCommandHandler(ILogger<AssignUserRoleCommandHandler> 
             await nutritionistsRepository.SaveChanges();
         }
 
-        if (request.RoleName == "Client")
-        {
-            var client = await clientsRepository.GetByIdAsync(request.ClientId)
-                ?? throw new NotFoundException(nameof(Client), request.ClientId.ToString());
-
-            client.UserId = user.Id;
-            await nutritionistsRepository.SaveChanges();
-        }
 
         await userManager.AddToRoleAsync(user, role.Name!);
 

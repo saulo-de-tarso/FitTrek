@@ -11,5 +11,5 @@ public class AssignUserRoleCommand : IRequest
     [Required]
     public string RoleName { get; set; } = default!;
     public int NutritionistId { get; set; }
-    public int ClientId { get; set; }
+
 }
