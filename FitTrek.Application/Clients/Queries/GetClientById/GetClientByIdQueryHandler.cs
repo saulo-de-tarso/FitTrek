@@ -21,9 +21,7 @@ public class GetClientByIdQueryHandler(ILogger<GetClientByIdQueryHandler> logger
 
         var nutritionist = await nutritionistsRepository.GetByUserIdAsync(user!.Id);
 
-        request.NutritionistId = nutritionist.Id;
-
-        logger.LogInformation($"Getting client with id {request.Id} for nutritionist with id {request.NutritionistId}");
+        logger.LogInformation($"Getting client with id {request.Id} for nutritionist with id {nutritionist.Id}");
    
         var client = nutritionist.Clients.FirstOrDefault(c => c.Id == request.Id) 
             ?? throw new NotFoundException(nameof(Client), request.Id.ToString());

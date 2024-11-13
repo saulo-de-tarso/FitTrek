@@ -77,8 +77,7 @@ internal class FitTrekSeeder(FitTrekDbContext dbContext,
         List<IdentityRole> roles =
             [
                 new(UserRoles.Admin) {NormalizedName = UserRoles.Admin.ToUpper()},
-                new(UserRoles.Nutritionist) {NormalizedName = UserRoles.Nutritionist.ToUpper()},
-                new(UserRoles.Client) {NormalizedName = UserRoles.Client.ToUpper()}
+                new(UserRoles.Nutritionist) {NormalizedName = UserRoles.Nutritionist.ToUpper()}
             ];
 
         return roles;

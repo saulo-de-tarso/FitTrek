@@ -2,6 +2,7 @@
 using FitTrek.Domain.Repositories;
 using FitTrek.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.Arm;
 
 namespace FitTrek.Infrastructure.Repositories;
 
@@ -15,11 +16,6 @@ internal class DietPlansRepository(FitTrekDbContext dbContext) : IDietPlansRepos
         return entity.Id;
     }
 
-    public async Task DeleteAll(IEnumerable<DietPlan> entities)
-    {
-        dbContext.RemoveRange(entities);
-        await dbContext.SaveChangesAsync();
-    }
 
     public async Task DeleteById(DietPlan entity)
     {
@@ -30,7 +26,8 @@ internal class DietPlansRepository(FitTrekDbContext dbContext) : IDietPlansRepos
     public async Task<DietPlan?> GetByIdAsync(int id)
     {
         var DietPlan = await dbContext.DietPlans.
-            FirstOrDefaultAsync(n => n.Id == id);
+            Include(dp => dp.Meals).
+            FirstOrDefaultAsync(dp => dp.Id == id);
 
         return DietPlan;
     }

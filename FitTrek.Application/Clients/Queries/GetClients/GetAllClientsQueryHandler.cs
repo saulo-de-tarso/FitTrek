@@ -24,12 +24,10 @@ public class GetAllClientsQueryHandler(ILogger<GetAllClientsQueryHandler> logger
 
         var nutritionist = await nutritionistsRepository.GetByUserIdAsync(user!.Id);
 
-        request.NutritionistId = nutritionist.Id;
-
         var nameLower = request.Name?.ToLower();
 
         logger.LogInformation(request.Name != null ? $"Getting all clients with name including: {request.Name} " +
-            $"for nutritionist with id {request.NutritionistId}" : $"Getting all clients for nutritionist with id {request.NutritionistId}");
+            $"for nutritionist with id {nutritionist.Id}" : $"Getting all clients for nutritionist with id {nutritionist.Id}");
 
 
         var clientQuery = nutritionist.Clients.Where(c => nameLower == null || c.FirstName.ToLower().Contains(nameLower)

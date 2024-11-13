@@ -1,11 +1,11 @@
-﻿using FitTrek.Application.DietPlans.Commands.CreateDietPlan;
+﻿using FitTrek.Application.Common.Pagination;
+using FitTrek.Application.DietPlans.Commands.CreateDietPlan;
 using FitTrek.Application.DietPlans.Commands.DeleteDietPlan;
 using FitTrek.Application.DietPlans.Commands.UpdateDietPlan;
-//using FitTrek.Application.DietPlans.Dtos;
-//using FitTrek.Application.DietPlans.Queries.GetDietPlans;
-using FitTrek.Application.Common.Pagination;
+using FitTrek.Application.DietPlans.Dtos;
+using FitTrek.Application.DietPlans.Queries.GetDietPlanById;
+using FitTrek.Application.DietPlans.Queries.GetDietPlans;
 using FitTrek.Domain.Constants;
-using FitTrek.Domain.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +28,8 @@ public class DietPlansController(IMediator mediator) : ControllerBase
 
         int id = await mediator.Send(command);
 
-        return Created();
         
-        //return CreatedAtAction(nameof(GetById), new { id }, null);
+        return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
 
@@ -44,15 +43,12 @@ public class DietPlansController(IMediator mediator) : ControllerBase
         return NoContent();
     }
 
-    /*
+    
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<DietPlanDto>>> GetAll(string? name,
-        [FromQuery] PaginationRequest paginationRequest,
-        [FromQuery] DietPlansortBy sortBy,
-        [FromQuery] SortDirection sortDirection)
+    public async Task<ActionResult<IEnumerable<DietPlanDto>>> GetAll([Required] int clientId,[FromQuery] PaginationRequest paginationRequest)
     {
-        var nutritionists = await mediator.Send(new GetAllDietPlansQuery(name, paginationRequest, sortBy, sortDirection));
+        var nutritionists = await mediator.Send(new GetAllDietPlansQuery(clientId, paginationRequest));
 
         return Ok(nutritionists);
     }
@@ -60,12 +56,12 @@ public class DietPlansController(IMediator mediator) : ControllerBase
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet("{id}")]
-    public async Task<ActionResult<DietPlanDto>> GetById(int id)
+    public async Task<ActionResult<DietPlanDto>> GetById([Required]int clientId, int id)
     {
-        var nutritionists = await mediator.Send(new GetDietPlanByIdQuery(id));
+        var nutritionists = await mediator.Send(new GetDietPlanByIdQuery(clientId, id));
 
         return Ok(nutritionists);
-    }*/
+    }
 
 
     [HttpPatch("{id}")]

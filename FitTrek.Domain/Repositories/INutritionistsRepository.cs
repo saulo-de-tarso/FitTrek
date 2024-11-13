@@ -12,7 +12,7 @@ public interface INutritionistsRepository
         NutritionistSortBy? sortBy, SortDirection? sortDirection);
     Task<Nutritionist?> GetByIdAsync(int id);
     Task<Nutritionist> GetByUserIdAsync(string userId);
-    Task<Nutritionist> GetByUserIdWithDietPlanAsync(string userId);
+    Task<Nutritionist> GetByUserIdWithDietPlansAsync(string userId);
     Task SaveChanges();
 
 

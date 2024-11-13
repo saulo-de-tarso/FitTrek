@@ -19,7 +19,7 @@ public class UpdateDietPlanCommandHandler(ILogger<UpdateDietPlanCommandHandler> 
     {
         var user = userContext.GetCurrentUser();
 
-        var nutritionist = await nutritionistsRepository.GetByUserIdWithDietPlanAsync(user!.Id);
+        var nutritionist = await nutritionistsRepository.GetByUserIdWithDietPlansAsync(user!.Id);
 
 
         logger.LogInformation("Updating diet plan with id {DietPlanId} for client with id {ClientId}" +

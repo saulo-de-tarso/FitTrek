@@ -13,7 +13,6 @@ public class GetAllClientsQuery(string? name,
     ClientSortBy sortBy,
     SortDirection sortDirection) : IRequest<PagedResult<ClientDto>>
 {
-    public int NutritionistId { get; set; }
     public string? Name { get; set; } = name;
     public int PageSize { get; set; } = (int)paginationRequest.PageSize;
     public int PageNumber { get; set; } = paginationRequest.PageNumber;
