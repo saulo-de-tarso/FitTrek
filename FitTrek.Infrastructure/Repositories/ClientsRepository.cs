@@ -27,13 +27,13 @@ internal class ClientsRepository(FitTrekDbContext dbContext) : IClientsRepositor
         await dbContext.SaveChangesAsync();
     }
 
-    /*public async Task<Client?> GetByIdAsync(int id)
+    public async Task<Client?> GetByIdAsync(int id)
     {
         var client = await dbContext.Clients.
             FirstOrDefaultAsync(n => n.Id == id);
 
         return client;
-    }*/
+    }
 
     public Task SaveChanges()
     => dbContext.SaveChangesAsync();

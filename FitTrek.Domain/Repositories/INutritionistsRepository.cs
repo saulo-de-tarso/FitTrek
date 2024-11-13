@@ -11,6 +11,7 @@ public interface INutritionistsRepository
     Task<(IEnumerable<Nutritionist>, int)> GetAllMatchingNamesAsync(string? name, int pageSize, int pageNumber);
     Task<Nutritionist?> GetByIdAsync(int id);
     Task<Nutritionist?> GetByIdWithClientsAsync(int id);
+    Task<Nutritionist> GetByUserIdAsync(string userId);
     Task SaveChanges();
 
 

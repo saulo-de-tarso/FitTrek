@@ -5,7 +5,6 @@ namespace FitTrek.Application.Users.UnassignUserRole;
 
 public class UnassignUserRoleCommand : IRequest
 {
-    
     [Required]
     [EmailAddress]
     public string UserEmail { get; set; } = default!;

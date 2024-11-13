@@ -20,11 +20,18 @@ internal class FitTrekDbContext(DbContextOptions<FitTrekDbContext> options)
     {
         base.OnModelCreating(modelBuilder);
 
+        //user relationships
+        
         modelBuilder.Entity<User>()
             .HasOne(u => u.Nutritionist)
             .WithOne(n => n.User)
             .HasForeignKey<Nutritionist>(n => n.UserId);
-        
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Client)
+            .WithOne(n => n.User)
+            .HasForeignKey<Client>(n => n.UserId);
+
         //nutritionist relationships
 
         modelBuilder.Entity<Nutritionist>()

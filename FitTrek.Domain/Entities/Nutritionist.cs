@@ -17,8 +17,8 @@ public class Nutritionist
     public List<DietPlan> DietPlans { get; set; } = new();
     public List<ProgressNotes> ProgressNotes { get; set; } = new();
 
-    public User User { get; set; } = default!;
-    public string UserId { get; set; } = default!;
+    public User? User { get; set; }
+    public string? UserId { get; set; }
 
     public DateTime CreatedAt { get; set; } = default!;
     public DateTime? UpdatedAt { get; set; }

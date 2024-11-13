@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using FitTrek.Application.Users;
 using FitTrek.Domain.Entities;
-using FitTrek.Domain.Exceptions;
 using FitTrek.Domain.Extensions;
 using FitTrek.Domain.Repositories;
 using MediatR;
@@ -11,14 +11,19 @@ namespace FitTrek.Application.Clients.Commands.CreateClient;
 public class CreateClientCommandHandler(ILogger<CreateClientCommandHandler> logger,
     IMapper mapper,
     INutritionistsRepository nutritionistsRepository,
-    IClientsRepository clientsRepository) : IRequestHandler<CreateClientCommand, int>
+    IClientsRepository clientsRepository,
+    IUserContext userContext) : IRequestHandler<CreateClientCommand, int>
 {
     public async Task<int> Handle(CreateClientCommand request, CancellationToken cancellationToken)
     {
-        logger.LogInformation("Creating a new client for nutritionist with id {NutritionistId}: {@Client}", request.NutritionistId, request);
 
-        var nutritionist = await nutritionistsRepository.GetByIdAsync(request.NutritionistId)
-            ?? throw new NotFoundException(nameof(Nutritionist), request.NutritionistId.ToString());
+        var user = userContext.GetCurrentUser();
+
+        var nutritionist = await nutritionistsRepository.GetByUserIdAsync(user!.Id);
+
+        request.NutritionistId = nutritionist.Id;
+
+        logger.LogInformation("Creating a new client for nutritionist with id {NutritionistId}: {@Client}", request.NutritionistId, request);
 
         var client = mapper.Map<Client>(request);
 

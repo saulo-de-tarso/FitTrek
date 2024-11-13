@@ -19,7 +19,6 @@ public class ClientDto
     public int HeightInCm { get; set; }
     public decimal WeightInKg { get; set; }
   
-    public bool IsActive { get; set; } = true;
     [EnumDataType(typeof(SubscriptionPlan))]
     public SubscriptionPlan SubscriptionPlan { get; set; } = default!;
 

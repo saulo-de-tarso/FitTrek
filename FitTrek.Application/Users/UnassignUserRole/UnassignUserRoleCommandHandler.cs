@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using FitTrek.Domain.Entities;
 using FitTrek.Domain.Exceptions;
+using FitTrek.Domain.Repositories;
 
 
 namespace FitTrek.Application.Users.UnassignUserRole;
@@ -20,7 +21,10 @@ public class UnassignUserRoleCommandHandler(ILogger<UnassignUserRoleCommandHandl
 
         var role = await roleManager.FindByNameAsync(request.RoleName)
             ?? throw new NotFoundException(nameof(IdentityRole), request.RoleName);
+        
 
         await userManager.RemoveFromRoleAsync(user, role.Name!);
+
+
     }
 }

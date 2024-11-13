@@ -10,4 +10,6 @@ public class AssignUserRoleCommand : IRequest
     public string UserEmail { get; set; } = default!;
     [Required]
     public string RoleName { get; set; } = default!;
+    public int NutritionistId { get; set; }
+    public int ClientId { get; set; }
 }

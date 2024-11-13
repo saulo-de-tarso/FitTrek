@@ -1,83 +1,72 @@
 ﻿using FitTrek.Application.Clients.Commands.CreateClient;
-using FitTrek.Application.Clients.Commands.DeleteClientByIdForNutritionist;
-using FitTrek.Application.Clients.Commands.DeleteClientsForNutritionist;
+using FitTrek.Application.Clients.Commands.DeleteClient;
 using FitTrek.Application.Clients.Commands.UpdateClient;
 using FitTrek.Application.Clients.Dtos;
-using FitTrek.Application.Clients.Queries.GetClientByIdForNutritionist;
-using FitTrek.Application.Clients.Queries.GetClientsForNutritionist;
+using FitTrek.Application.Clients.Queries.GetClientById;
+using FitTrek.Application.Clients.Queries.GetClients;
 using FitTrek.Application.Common.Pagination;
-using FitTrek.Application.Nutritionists.Dtos;
-using FitTrek.Application.Nutritionists.Queries.GetNutritionists;
+using FitTrek.Domain.Constants;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FitTrek.API.Controllers;
 
 [ApiController]
-[Route("api/nutritionists/{nutritionistId}/clients")]
+
+[Route("api/clients")]
+[Authorize(Roles = UserRoles.Nutritionist)]
 public class ClientsController(IMediator mediator) : ControllerBase
 {
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [HttpPost]
-    public async Task<IActionResult> Create(int nutritionistId, CreateClientCommand command)
+    public async Task<IActionResult> Create(CreateClientCommand command)
     {
-        command.NutritionistId = nutritionistId;
+       
+        int id = await mediator.Send(command);
 
-        int clientId = await mediator.Send(command);
-
-
-        return CreatedAtAction(nameof(GetByIdForNutritionist), new { nutritionistId, clientId }, null);
-    }
-
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpDelete]
-    public async Task<IActionResult> DeleteAllForNutritionist(int nutritionistId)
-    {
-        await mediator.Send(new DeleteClientsForNutritionistCommand(nutritionistId));
-
-        return NoContent();
+        //return Created();
+        return CreatedAtAction(nameof(GetById), new { id }, null);
     }
 
     
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpDelete("{clientId}")]
-    public async Task<IActionResult> DeleteByIdForNutritionist(int nutritionistId, int clientId)
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteById(int id)
     {
-        await mediator.Send(new DeleteClientByIdForNutritionistCommand(nutritionistId, clientId));
+        await mediator.Send(new DeleteClientCommand(id));
 
         return NoContent();
     }
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ClientDto>>> GetAllForNutritionist(int nutritionistId, string? name, [FromQuery] PaginationRequest paginationRequest)
+    public async Task<ActionResult<IEnumerable<ClientDto>>> GetAll(string? name, [FromQuery] PaginationRequest paginationRequest)
     {
-        var nutritionists = await mediator.Send(new GetClientsForNutritionistQuery(nutritionistId, name, paginationRequest));
+        var nutritionists = await mediator.Send(new GetAllClientsQuery(name, paginationRequest));
 
         return Ok(nutritionists);
     }
 
 
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [HttpGet("{clientId}")]
-    public async Task<ActionResult<ClientDto>> GetByIdForNutritionist(int nutritionistId, int clientId)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ClientDto>> GetById(int id)
     {
-        var nutritionists = await mediator.Send(new GetClientByIdForNutritionistQuery(nutritionistId, clientId));
+        var nutritionists = await mediator.Send(new GetClientByIdQuery(id));
 
         return Ok(nutritionists);
     }
 
     
-    [HttpPatch("{clientId}")]
+    [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateForNutritionist(int nutritionistId, int clientId, UpdateClientCommand command)
+    public async Task<IActionResult> UpdateForNutritionist(int id, UpdateClientCommand command)
     {
-        command.NutritionistId = nutritionistId;
-        command.Id = clientId;
+        command.Id = id;
 
         await mediator.Send((command));
 

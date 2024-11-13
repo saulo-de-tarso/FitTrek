@@ -34,7 +34,6 @@ public class CreateClientCommand : IRequest<int>
 
     [JsonIgnore]
     public int NutritionistId { get; set; }
-    public bool IsActive { get; set; } = true;
     [Required]
     [EnumDataType(typeof(SubscriptionPlan))]
     public SubscriptionPlan SubscriptionPlan { get; set; } = default!;

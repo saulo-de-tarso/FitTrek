@@ -17,12 +17,15 @@ public class Client
     public decimal WeightInKg { get; set; }
 
     public int NutritionistId { get; set; }
-    public bool IsActive { get; set; } = true;
+
     public SubscriptionPlan SubscriptionPlan { get; set; } = default!;
 
     public List<DietPlan> DietPlans { get; set; } = new();
     public List<ClientStats> ClientStats { get; set; } = new();
     public List<ProgressNotes> ProgressNotes { get; set; } = new();
+
+    public User? User { get; set; }
+    public string? UserId { get; set; }
 
     public DateTime CreatedAt { get; set; } = default!;
     public DateTime? UpdatedAt { get; set; }

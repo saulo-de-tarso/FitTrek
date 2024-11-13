@@ -1,4 +1,5 @@
-﻿using FitTrek.Domain.Entities;
+﻿using FitTrek.Application.Users;
+using FitTrek.Domain.Entities;
 using FitTrek.Domain.Repositories;
 using FitTrek.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -63,6 +64,16 @@ internal class NutritionistsRepository(FitTrekDbContext dbContext) : INutritioni
             FirstOrDefaultAsync(n => n.Id == id);
 
         return nutritionist;
+    }
+
+    public async Task<Nutritionist> GetByUserIdAsync(string userId)
+    {
+        
+        var nutritionist = await dbContext.Nutritionists.
+            Include(n => n.Clients).
+            FirstOrDefaultAsync(n => n.UserId == userId);
+
+        return nutritionist!;
     }
 
     public Task SaveChanges()

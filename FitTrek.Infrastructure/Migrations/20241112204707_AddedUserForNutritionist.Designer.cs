@@ -4,6 +4,7 @@ using FitTrek.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitTrek.Infrastructure.Migrations
 {
     [DbContext(typeof(FitTrekDbContext))]
-    partial class FitTrekDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241112204707_AddedUserForNutritionist")]
+    partial class AddedUserForNutritionist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,6 +54,9 @@ namespace FitTrek.Infrastructure.Migrations
                     b.Property<int>("HeightInCm")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -69,19 +75,12 @@ namespace FitTrek.Infrastructure.Migrations
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<decimal>("WeightInKg")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NutritionistId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Clients");
                 });
@@ -506,12 +505,6 @@ namespace FitTrek.Infrastructure.Migrations
                         .HasForeignKey("NutritionistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("FitTrek.Domain.Entities.User", "User")
-                        .WithOne("Client")
-                        .HasForeignKey("FitTrek.Domain.Entities.Client", "UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FitTrek.Domain.Entities.ClientStats", b =>
@@ -647,9 +640,6 @@ namespace FitTrek.Infrastructure.Migrations
 
             modelBuilder.Entity("FitTrek.Domain.Entities.User", b =>
                 {
-                    b.Navigation("Client")
-                        .IsRequired();
-
                     b.Navigation("Nutritionist")
                         .IsRequired();
                 });

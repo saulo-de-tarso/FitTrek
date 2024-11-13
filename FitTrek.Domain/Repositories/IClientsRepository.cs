@@ -9,7 +9,7 @@ public interface IClientsRepository
     Task DeleteAll(IEnumerable<Client> entities);
     Task DeleteById(Client entity);
 
-    /*Task<Client?> GetByIdAsync(int id);*/
+    Task<Client?> GetByIdAsync(int id);
 
     Task SaveChanges();
 

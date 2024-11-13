@@ -1,12 +1,12 @@
-﻿using FitTrek.Infrastructure.Persistence;
+﻿using FitTrek.Domain.Entities;
+using FitTrek.Domain.Repositories;
+using FitTrek.Infrastructure.Persistence;
+using FitTrek.Infrastructure.Repositories;
+using FitTrek.Infrastructure.Seeders;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FitTrek.Infrastructure.Seeders;
-using FitTrek.Domain.Repositories;
-using FitTrek.Infrastructure.Repositories;
-using FitTrek.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 
 namespace FitTrek.Infrastructure.Extensions;
 
@@ -26,5 +26,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<INutritionistSeeder, NutritionistSeeder>();
         services.AddScoped<INutritionistsRepository, NutritionistsRepository>();
         services.AddScoped<IClientsRepository, ClientsRepository>();
+
+      
     }
 }

@@ -28,7 +28,6 @@ public class UpdateClientCommand : IRequest
     [JsonIgnore]
     public int NutritionistId { get; set; }
 
-    public bool? IsActive { get; set; }
     [EnumDataType(typeof(SubscriptionPlan))]
     public SubscriptionPlan? SubscriptionPlan { get; set; }
 }
