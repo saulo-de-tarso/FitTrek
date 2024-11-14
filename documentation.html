@@ -146,8 +146,9 @@ cd FitTrek</code></pre>
         <li><strong>Instalar dependências:</strong>
             <pre><code>dotnet restore</code></pre>
         </li>
-        <li><strong>Aplicar migrações do banco de dados:</strong>
-            <pre><code>dotnet ef database update</code></pre>
+        <li><strong>Aplicar migrações do banco de dados pelo Packager Manage Console:</strong>
+            <p><strong>Importante: </strong>Aplicar o update com o projeto padrão (default project) <strong>FitTrek.Infrastructure</strong>, pois o DbContext está localizado na Infrastructure. </p>
+            <pre><code>update-database</code></pre>
         </li>
         <li><strong>Rodar a aplicação:</strong>
             <pre><code>dotnet run</code></pre>
