@@ -21,10 +21,11 @@
 
 ## API Entities
 
-<div style="text-align: center;">
-    <img src="images/FitTrekErd.png" alt="API Entity Diagram">
-    <p><em>Figure 1: Visual representation of the API entities.</em></p>
-</div>
+<p align="center">
+  <img src="images/FitTrekErd.png" alt="API Entity Diagram">
+</p>
+<p align="center"><em>Figure 1: Visual representation of the API entities.</em></p>
+
 
 - **Nutritionist**: Represents a user who manages clients, diets, and meals.
 - **Client**: Represents individuals who are assigned diet plans by nutritionists.
@@ -66,7 +67,7 @@ The API uses **ASP.NET Core Identity** for user authentication and authorization
     dotnet restore
     ```
 
-4. **Apply database migrations via the Package Manager Console:**
+4. **Apply database migrations via the Package Manager Console:**  
     **Important:** Apply the update with the default project set to **FitTrek.Infrastructure**, as the DbContext is located in the Infrastructure.
     ```bash
     update-database
@@ -239,7 +240,7 @@ The API uses **ASP.NET Core Identity** for user authentication and authorization
         "goal": "Weight loss",
         "startDate": "2024-11-13",
         "endDate": "2024-11-13",
-        "calories": 0
+        "calories": 1800
     }
     ```
 
@@ -268,8 +269,73 @@ The API uses **ASP.NET Core Identity** for user authentication and authorization
         "goal": "Muscle gain",
         "startDate": "2024-11-13",
         "endDate": "2024-11-13",
-        "calories": 0
+        "calories": 1800
     }
     ```
+    
+### Meals - Authentication required (Only Nutritionists are authorized)
+
+- **POST api/dietplans/{dietPlanId}/meals**  
+  **Description:** Creates a new meal for the diet plan, specifying its Id. If the diet plan is related to another nutritionist, it returns Status 403 (Forbidden). If the diet plan does not exist, it returns an exception stating that the diet plan does not exist.  
+    ```json
+    {
+        "mealType": "Breakfast",
+        "description": "2 eggs, 2 slices of whole wheat bread, 1 tablespoon of cream cheese.",
+        "calories": 500,
+        "carbs": 35,
+        "proteins": 17,
+        "fats": 10
+    }
+    ```
+
+- **GET api/dietplans/{dietPlanId}/meals**  
+  **Description:** Returns all meals registered in the database for the specified diet plan Id.  
+  If the diet plan is related to another nutritionist, it returns Status 403 (Forbidden). If the diet plan does not exist, it returns an exception stating that the diet plan does not exist.
+
+- **DELETE api/dietplans/{dietPlanId}/meals/{id}**  
+  **Description:** Deletes a meal by the specified diet plan Id and meal Id.  
+  If the diet plan is related to another nutritionist, it returns Status 403 (Forbidden). If the meal Id does not exist, it returns an exception stating that the meal does not exist.
+
+- **PATCH api/dietplans/{dietPlanId}/meals/{id}**  
+  **Description:** Updates the data of a meal by the specified diet plan Id and meal Id.  
+  If the diet plan is related to another nutritionist, it returns Status 403 (Forbidden). If the meal Id does not exist, it returns an exception stating that the meal does not exist.  
+  Partial data can be passed if the user wants to update only a specific property.  
+    ```json
+    {
+        "mealType": "Breakfast",
+        "description": "2 eggs, 2 slices of whole wheat bread, 1 tablespoon of cream cheese.",
+        "calories": 540,
+        "carbs": 42,
+        "proteins": 17,
+        "fats": 10
+    }
+    ```
+
+### Seeder
+
+The Seeder creates default data in the database if it is empty:
+
+- Creates an **initial nutritionist**.
+- Creates an **initial client**.
+- Creates the default **user roles**: Admin and Nutritionist.
+
+### How to Consume the API
+
+The API is based on access levels. When running for the first time, the Seeder will check if the database contains user roles, and if the nutritionist and client tables have data. If user roles do not exist, it will insert the Admin and Nutritionist roles. If the nutritionist and client tables have no data, it will create a nutritionist and a client linked to that nutritionist. 
+
+To consume the API:
+1. **Create a user** by calling the endpoint: **POST /api/identity/register**.
+2. **Authenticate the user** by calling: **POST /api/identity/login**.
+3. **Assign a user role** to the created user by calling: **POST /api/identity/userRole**.  
+   Note: Only Admins have access to the Nutritionist entity, and only Nutritionists have access to the Client entity. To add a user to the Nutritionist role, you must also provide the nutritionist Id. Therefore, the nutritionist entity must be created before assigning the role to the user. Since the API will already have a nutritionist created by the Seeder, you can assign the nutritionist role to the user with Id 1.
+   
+Steps to follow:
+- **Register a user:** **POST /api/identity/register**.
+- **Authenticate the user:** **POST /api/identity/login**.
+- **Assign a user role to the created user:** **POST /api/identity/userRole**.
+- **Consume the API at the endpoints.**  
+  Note: Admins **only have access to the Nutritionist entity**, and Nutritionists **have access to other entities, but only for clients they have registered.**
+- The API is already configured for use with **Swagger**, and it is recommended to use it as it is well-documented with expected values for the endpoints. Just append `/swagger` to the URL. Alternatively, you can use Postman or Insomnia if preferred.
+
 
 
